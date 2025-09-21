@@ -27,14 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.robotcontroller.external.samples.externalhardware;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-/*
+/**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
  * Please read the explanations in that Sample about how to use this class definition.
  *
@@ -48,13 +48,14 @@ import com.qualcomm.robotcore.util.Range;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with *exactly the same name*.
  *
- * Or... In OnBot Java, add a new file named RobotHardware.java, select this sample, and select Not an OpMode.
- * Also add a new OpMode, select the sample ConceptExternalHardwareClass.java, and select TeleOp.
+ * Or.. In OnBot Java, add a new file named RobotHardware.java, drawing from this Sample; select Not an OpMode.
+ * Also add a new OpMode, drawing from the Sample ConceptExternalHardwareClass.java; select TeleOp.
  *
  */
 
 public class RobotHardware {
 
+    public boolean enabled;
     /* Declare OpMode members. */
     private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
 
@@ -79,7 +80,7 @@ public class RobotHardware {
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
-     * <p>
+     *
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init()    {

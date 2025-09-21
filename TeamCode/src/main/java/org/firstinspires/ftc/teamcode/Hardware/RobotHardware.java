@@ -10,10 +10,11 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Swerve.DT;
 
 import java.util.List;
 
-public class HWMap {
+public class RobotHardware {
     public static IMU imu;
     public static double imuAngle;
     public final VoltageSensor voltageSensor;
@@ -36,7 +37,15 @@ public class HWMap {
     public static boolean initialized = false;
     List<LynxModule> hubs;
 
-    public HWMap(HardwareMap hardwareMap, boolean isAuto) {
+    public double voltage = 0.0;
+
+    private static RobotHardware instance = null;
+
+    public boolean enabled;
+
+    private double imuOffset = 0.0;
+
+    public RobotHardware(HardwareMap hardwareMap, boolean isAuto) {
         hubs = hardwareMap.getAll(LynxModule.class);
         frontRightMotor = hardwareMap.get(DcMotorEx.class, "FRM");
         frontLeftMotor = hardwareMap.get(DcMotorEx.class, "FLM");
@@ -61,6 +70,7 @@ public class HWMap {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
         imu.initialize(parameters);
     }
+
     public static double readFromIMU() {
         imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         initialized = true;
@@ -80,7 +90,35 @@ public class HWMap {
         return imuAngle;
     }
 
+   /* public static RobotHardware getInstance() {
+        if (instance == null){
+            instance = new RobotHardware();
+        }
+        instance.enabled = true;
+        return instance;
+    } */
 
+    public double getVoltage() {
+        return voltage;
+    }
+
+    public void read(DT dt) {
+        try {
+            dt.read();
+        } catch (Exception ignored){
+        }
+    }
+
+    public void write(DT dt) {
+        try {
+            dt.write();
+        } catch (Exception ignored){
+        }
+    }
+
+    public double getAngle(){
+        return imuAngle-imuOffset;
+    }
 
     public AnalogInput getFrontRightEncoder(){
         return frontRightEncoder;

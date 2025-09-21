@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Swerve;
 
+import static org.firstinspires.ftc.teamcode.Hardware.RobotHardware.imu;
 import static java.lang.Math.atan2;
 import static java.lang.Math.hypot;
 
@@ -10,9 +11,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Geo.MathUtils;
 import org.firstinspires.ftc.teamcode.Geo.Pose;
 import org.firstinspires.ftc.teamcode.Hardware.AbsoluteAnalogEncoder;
-import org.firstinspires.ftc.teamcode.Hardware.HWMap;
+import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 
 public class DT {
+    public static boolean maintainHeading;
     public Module frontLeftModule, backLeftModule, backRightModule, frontRightModule;
     public Module[] modules;
 
@@ -29,10 +32,11 @@ public class DT {
 
     public final double minPow = 0.1;
     public static double imuOffset = 0.0;
+    public static double imuAngle = 0.0;
 
     private boolean locked = false;
 
-    public DT(HWMap robot) {
+    public DT(RobotHardware robot) {
         frontLeftModule = new Module(robot.frontLeftMotor, robot.frontLeftServo, new AbsoluteAnalogEncoder(robot.frontLeftEncoder, 3.3).zero(frontLeftOffset).setInverted(true));
         backLeftModule = new Module(robot.backLeftMotor, robot.backLeftServo, new AbsoluteAnalogEncoder(robot.backLeftEncoder, 3.3).zero(backLeftOffset).setInverted(true));
         backRightModule = new Module(robot.backRightMotor, robot.backRightServo, new AbsoluteAnalogEncoder(robot.backRightEncoder, 3.3).zero(backRightOffset).setInverted(true));
@@ -93,4 +97,10 @@ public class DT {
                 frontRightModule.getTelemetry("rightFrontModule") + "\n" +
                 backRightModule.getTelemetry("rightRearModule") + "\n";
     }
+
+    public double getAngle(){
+        return imuAngle-imuOffset;
+    }
+
+
 }
